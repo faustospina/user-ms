@@ -1,2 +1,2 @@
-# user-ms
-user-ms bci
+# users-ms
+users-ms bci
