@@ -28,10 +28,10 @@ public class UserServiceImpl implements UserService{
     private UserMapper mapper;
 
     @Value("${password.regex}")
-    private String passwordRegex;
+    String passwordRegex;
 
     @Override
-    public ResponseEntity<?> createUser(UsersDTO usersDTO) {
+    public ResponseEntity<Object> createUser(UsersDTO usersDTO) {
         try{
             validBuild(usersDTO);
             Users users = mapper.toEntity(usersDTO);
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<?> getUsers() {
+    public ResponseEntity<Object> getUsers() {
         try{
             List<Users> users = repository.findAll();
             if (users.isEmpty()) {

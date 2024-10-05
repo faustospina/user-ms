@@ -14,12 +14,12 @@ public class UsersController {
     private UserService service;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody UsersDTO request) {
+    public ResponseEntity<Object> createUser(@RequestBody UsersDTO request) {
         return service.createUser(request);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getUsers(){
+    public ResponseEntity<Object> getUsers(){
         return service.getUsers();
     }
 }

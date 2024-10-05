@@ -12,17 +12,13 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UsersDTO {
     private UUID id;
-    @NonNull
     private String name;
-    @NonNull
     private String email;
-    @NonNull
     private String password;
     private LocalDateTime created;
     private LocalDateTime modified;
     private LocalDateTime lastLogin;
     private String token;
     private Boolean isActive;
-    @NonNull
     private List<PhoneDTO> phones;
 }
