@@ -4,6 +4,7 @@ import com.bci.cl.user_ms.config.JwtUtil;
 import com.bci.cl.user_ms.dto.PhoneDTO;
 import com.bci.cl.user_ms.dto.UserOutDTO;
 import com.bci.cl.user_ms.dto.UsersDTO;
+import com.bci.cl.user_ms.exception.BusinessException;
 import com.bci.cl.user_ms.mapper.UserMapper;
 import com.bci.cl.user_ms.model.Phone;
 import com.bci.cl.user_ms.model.Users;
@@ -18,14 +19,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 @TestPropertySource(properties = "password.regex=^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$")
 class UserServiceImplTest {
@@ -149,7 +150,96 @@ class UserServiceImplTest {
 
         when(userRepository.findByEmail(usersDTO.getEmail())).thenReturn(Optional.of(user));
 
-        ResponseEntity<?> response = userService.createUser(usersDTO);
+        ResponseEntity<Object> response = userService.createUser(usersDTO);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void testCreateUserUnhandledException() {
+        PhoneDTO phoneDTO = new PhoneDTO();
+        phoneDTO.setNumber("1");
+        phoneDTO.setCityCode("123");
+        phoneDTO.setContryCode("1234");
+
+        List<PhoneDTO> phonesDto = new ArrayList<>();
+        phonesDto.add(phoneDTO);
+
+        Users user = new Users();
+
+        Phone phone = new Phone();
+        phone.setNumber("1");
+        phone.setCityCode("123");
+        phone.setContryCode("1234");
+
+        List<Phone> phones = new ArrayList<>();
+        phones.add(phone);
+
+        user.setId(UUID.fromString("38b04441-f58c-47c2-8684-66291a0f6d09"));
+        user.setName("juan");
+        user.setEmail("juan@test.com");
+        user.setToken("eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbmRyZXMzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjgxNjExMzZ9.K88AFM1isev0xXBoFGPFf7FH5_Ak6EudPQDiAldfPqfLJFK3un_oM_tirzDnU2ny");
+        user.setPassword("Password2!");
+        user.setPhones(phones);
+
+
+        UsersDTO usersDTO = new UsersDTO();
+        usersDTO.setName("juan");
+        usersDTO.setEmail("juan@test.com");
+        usersDTO.setToken("eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbmRyZXMzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjgxNjExMzZ9.K88AFM1isev0xXBoFGPFf7FH5_Ak6EudPQDiAldfPqfLJFK3un_oM_tirzDnU2ny");
+        usersDTO.setPassword("Password2!");
+        usersDTO.setPhones(phonesDto);
+        when(userRepository.findByEmail(usersDTO.getEmail())).thenThrow(new RuntimeException("Unexpected error"));
+
+        ResponseEntity<Object> response = userService.createUser(usersDTO);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertTrue(response.getBody() instanceof Exception);
+    }
+
+    @Test
+    void testCreateUser_FailPassword() {
+        PhoneDTO phoneDTO = new PhoneDTO();
+        phoneDTO.setNumber("1");
+        phoneDTO.setCityCode("123");
+        phoneDTO.setContryCode("1234");
+
+        List<PhoneDTO> phonesDto = new ArrayList<>();
+        phonesDto.add(phoneDTO);
+        UsersDTO usersDTO = new UsersDTO();
+        usersDTO.setName("juan");
+        usersDTO.setEmail("juan@test.com");
+        usersDTO.setToken("eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbmRyZXMzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjgxNjExMzZ9.K88AFM1isev0xXBoFGPFf7FH5_Ak6EudPQDiAldfPqfLJFK3un_oM_tirzDnU2ny");
+        usersDTO.setPassword("Password");
+        usersDTO.setPhones(phonesDto);
+
+        when(userRepository.findByEmail(usersDTO.getEmail())).thenReturn(Optional.empty());
+
+        ResponseEntity<Object> response = userService.createUser(usersDTO);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testCreateUser_FailMail() {
+        PhoneDTO phoneDTO = new PhoneDTO();
+        phoneDTO.setNumber("1");
+        phoneDTO.setCityCode("123");
+        phoneDTO.setContryCode("1234");
+
+        List<PhoneDTO> phonesDto = new ArrayList<>();
+        phonesDto.add(phoneDTO);
+
+        UsersDTO usersDTO = new UsersDTO();
+        usersDTO.setName("juan");
+        usersDTO.setEmail("juan_test.com");
+        usersDTO.setToken("eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhbmRyZXMzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjgxNjExMzZ9.K88AFM1isev0xXBoFGPFf7FH5_Ak6EudPQDiAldfPqfLJFK3un_oM_tirzDnU2ny");
+        usersDTO.setPassword("Password1$");
+        usersDTO.setPhones(phonesDto);
+
+        when(userRepository.findByEmail(usersDTO.getEmail())).thenReturn(Optional.empty());
+
+        ResponseEntity<Object> response = userService.createUser(usersDTO);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }

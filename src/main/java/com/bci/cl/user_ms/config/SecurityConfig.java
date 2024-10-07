@@ -23,21 +23,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()) // Deshabilitar CSRF
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users")
-                        .authenticated() // Proteger endpoints
-                        .anyRequest()
-                        .permitAll() // Permitir cualquier otra solicitud
+                        .requestMatchers("/users").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Sin estado (Stateless)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
-
-        // Añadir el filtro JWT antes del filtro de autenticación por defecto
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
 }
