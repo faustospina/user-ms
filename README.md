@@ -8,9 +8,9 @@ users-ms bci
 
 2 - Descomprimir el proyecto
 
-3 - Asegurece de tener el JDK 17 configurado en su entorno de trabajo
+3 - Asegurece de tener el JDK 17 y maven configurado en su entorno de trabajo
 
-3 - Cargue el proyecto con su IDE preferido ya sea SPRINGBOOT ó Intellij
+3 - Cargue el proyecto con su IDE preferido ya sea SPRING TOOL SUITE ó Intellij
 
 4 - Ejecute su proyecto con el servidor tomcat por defecto por el puerto 8080 (Asegurece de no tener en uso el puerto)
 
