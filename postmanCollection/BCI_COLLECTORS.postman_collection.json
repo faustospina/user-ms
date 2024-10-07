@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "b3eba6f1-dc8e-4da8-8306-bd6f95c70463",
+		"name": "BCI_COLLECTORS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1573654"
+	},
+	"item": [
+		{
+			"name": "CREATE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdGF0aWNVc2VyIiwiaWF0IjoxNjk2MTk0NDAwfQ.0ErH9fOpzQojisfSoszSDzEAw-j4jLVN5F4MGEZh_oI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"hola\",\r\n    \"email\": \"anhola@gmail.com\",\r\n    \"password\": \"Password2!\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"1234567\",\r\n            \"cityCode\": \"1\",\r\n            \"contryCode\": \"57\"\r\n        },\r\n        {\r\n            \"number\": \"98765432\",\r\n            \"cityCode\": \"5\",\r\n            \"contryCode\": \"64\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"create"
+					]
+				},
+				"description": "ENDPOINT CREATE USER"
+			},
+			"response": []
+		},
+		{
+			"name": "GET_ALL_USERS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdGF0aWNVc2VyIiwiaWF0IjoxNjk2MTk0NDAwfQ.0ErH9fOpzQojisfSoszSDzEAw-j4jLVN5F4MGEZh_oI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdGF0aWNVc2VyIiwiaWF0IjoxNjk2MTk0NDAwfQ.0ErH9fOpzQojisfSoszSDzEAw-j4jLVN5F4MGEZh_oI",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
