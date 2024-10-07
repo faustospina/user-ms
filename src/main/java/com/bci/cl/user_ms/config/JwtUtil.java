@@ -21,15 +21,6 @@ public class JwtUtil {
         return STATIC_TOKEN.equals(token);
     }
 
-    public String generateStaticToken() {
-        return Jwts.builder()
-                .setSubject("staticUser")
-                .setIssuedAt(new Date())
-                .setExpiration(Date.from(LocalDateTime.now().plusYears(1).toInstant(ZoneOffset.UTC)))
-                .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
-                .compact();
-    }
-
     public String generateToken(String subject) {
         return Jwts.builder()
                 .setSubject(subject)
