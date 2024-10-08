@@ -14,7 +14,7 @@ users-ms bci
 
 4 - Ejecute su proyecto con el servidor tomcat por defecto por el puerto 8080 (Asegurece de no tener en uso el puerto)
 
-5 - Ir a la carpeta postmanCollections descargarla y ejecutarla con postman - [postmaCollection](../postmanCollection)
+5 - Ir a la carpeta postmanCollections descargarla y ejecutarla con postman - [postmaCollection](/postmanCollection)
 
 6 - crea un usuario con la plantilla proporcionada (asegurece de tener el Bearer token)
 
